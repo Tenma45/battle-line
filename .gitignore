@@ -1,0 +1,4 @@
+**/__pycache__/*
+client/dist/*
+client/*.rar
+client/build/**/*
