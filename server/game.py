@@ -52,6 +52,7 @@ def start():
   state["player1"] = players["player1"]
   state["player2"] = players["player2"]
   random.shuffle(state["troop"])
+  random.shuffle(state["tactic"])
   data = {
       "action": "start",
   }

@@ -18,8 +18,8 @@ def handle(event,components,client_socket,state,messages):
                 game.start(client_socket)
             if troop_rect.collidepoint(event.pos) and state["status"] == "Draw a card":
                 game.draw(client_socket,state,"troop")
-            # if tactic_rect.collidepoint(event.pos) and state["status"] == "Draw a card":
-            #     game.draw(client_socket,state,"tactic")
+            if tactic_rect.collidepoint(event.pos) and state["status"] == "Draw a card":
+                game.draw(client_socket,state,"tactic")
             for hand in hands:
                 card_rect, card = hand
                 if card_rect.collidepoint(event.pos) and (state["status"] == "Select a card" or state["status"] == "Select a position"):

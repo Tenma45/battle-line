@@ -140,18 +140,26 @@ def render(state):
     hands = []
     for card, position in zip(hand, hand_layout):
         if card != 0:
-            first_digit = math.floor((card-1)/10)
-            rect_color = card_color_dict[first_digit]
-            border = pygame.Rect(position[0] - BORDER_WIDTH, position[1] - BORDER_WIDTH, CARD_WIDTH + 2 * BORDER_WIDTH, CARD_HEIGHT + 2 * BORDER_WIDTH)
-            border_color = WHITE if select_card == card else BLACK
-            pygame.draw.rect(screen, border_color, border)
-            card_rect = pygame.Rect(position[0], position[1], CARD_WIDTH, CARD_HEIGHT)
-            hands.append((card_rect,card))
-            pygame.draw.rect(screen, rect_color, card_rect)
-            label = str(card%10) if card%10 != 0 else str(10)
-            label_surface = FONT.render(label, True, WHITE)
-            label_rect = label_surface.get_rect()
-            label_rect.topleft = (position[0]+20, position[1]+30) if label != "10" else (position[0]+1, position[1]+30)
+            if card <= 60:
+                first_digit = math.floor((card-1)/10)
+                rect_color = card_color_dict[first_digit]
+                border = pygame.Rect(position[0] - BORDER_WIDTH, position[1] - BORDER_WIDTH, CARD_WIDTH + 2 * BORDER_WIDTH, CARD_HEIGHT + 2 * BORDER_WIDTH)
+                border_color = WHITE if select_card == card else BLACK
+                pygame.draw.rect(screen, border_color, border)
+                card_rect = pygame.Rect(position[0], position[1], CARD_WIDTH, CARD_HEIGHT)
+                hands.append((card_rect,card))
+                pygame.draw.rect(screen, rect_color, card_rect)
+                label = str(card%10) if card%10 != 0 else str(10)
+                label_surface = FONT.render(label, True, WHITE)
+                label_rect = label_surface.get_rect()
+                label_rect.topleft = (position[0]+20, position[1]+30) if label != "10" else (position[0]+1, position[1]+30)
+            else:
+                imp = pygame.image.load("./assets/card61.png").convert()
+                image = pygame.transform.scale(imp, (CARD_WIDTH,CARD_HEIGHT))
+                border = pygame.Rect(position[0] - BORDER_WIDTH, position[1] - BORDER_WIDTH, CARD_WIDTH + 2 * BORDER_WIDTH, CARD_HEIGHT + 2 * BORDER_WIDTH)
+                border_color = WHITE if select_card == card else BLACK
+                pygame.draw.rect(screen, border_color, border)
+                screen.blit(image, (position[0], position[1]))
 
             # Blit (draw) the label surface onto the screen
             screen.blit(label_surface, label_rect)
