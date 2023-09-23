@@ -24,13 +24,18 @@ def handle_client(client_socket: socket.socket):
   print("Handle client")
   while True:
     try:
-      receive_data = client_socket.recv(BUFFER_SIZE)
+      message_length_bytes = client_socket.recv(4)
+      message_length = int.from_bytes(message_length_bytes, byteorder='big')
+      message_data = b""
+      while len(message_data) < message_length:
+          remaining_bytes = message_length - len(message_data)
+          message_chunk = client_socket.recv(remaining_bytes)
+          if message_chunk :
+              data = pickle.loads(message_chunk)
+              game.update(connected_clients,client_socket,data)
+          message_data += message_chunk
     except ConnectionResetError:
         break
-    if not receive_data:
-      break
-    data = pickle.loads(receive_data)
-    game.update(connected_clients,client_socket,data)
   #   # Send game results to client(s)
   print(client_socket.getpeername()[1], " had disconnected")
   connected_clients.remove(client_socket)

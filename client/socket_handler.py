@@ -25,7 +25,7 @@ def receive_data_from_server(client_socket,messages):
 
 def connect(server,port,messages):
     # Network
-    SERVER_IP = f'{server}.tcp.ngrok.io'
+    SERVER_IP = f'{server}.tcp.ngrok.io' if server != 'x' else 'localhost'
     SERVER_PORT = port
 
     server_address = (SERVER_IP, SERVER_PORT)
@@ -40,8 +40,11 @@ def connect(server,port,messages):
 
     return client_socket
 
-def send_data_to_server(client_socket,message):
+def send_data_to_server(client_socket,data):
     try:
-        client_socket.send(message.encode())
+        dumped = pickle.dumps(data)
+        message_length = len(dumped).to_bytes(4, byteorder='big')  # 4 bytes for message length
+        final_message = message_length + dumped
+        client_socket.send(final_message)
     except Exception as e:
         print(f"Error: {str(e)}")

@@ -55,8 +55,7 @@ def update_from_server(messages,state):
 
 def start(client_socket):
     data = {"action":"start"}
-    dumped = pickle.dumps(data)
-    client_socket.send(dumped)
+    socket_handler.send_data_to_server(client_socket,data)
 
 def place(client_socket,state):
     card = state["select_card"]
@@ -68,8 +67,7 @@ def place(client_socket,state):
         "lane":lane,
         "player":player
         }
-    dumped = pickle.dumps(data)
-    client_socket.send(dumped)
+    socket_handler.send_data_to_server(client_socket,data)
 
 def draw(client_socket,state,deck):
     data = {
@@ -77,8 +75,7 @@ def draw(client_socket,state,deck):
         "player": state["player"],
         "deck": deck
     }
-    dumped = pickle.dumps(data)
-    client_socket.send(dumped)
+    socket_handler.send_data_to_server(client_socket,data)
 
 def join(port:str,messages):
     port_number = int(port.split('/')[0])
